@@ -108,10 +108,6 @@ While the Vigenère cipher was considered unbreakable for centuries (earning it 
 
 Feel free to fork this project and submit pull requests for any improvements!
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ---
 
 ⭐ **Star this repository if you found it helpful!** ⭐
