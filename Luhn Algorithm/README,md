@@ -1,0 +1,190 @@
+markdown# Credit Card Validator using Luhn Algorithm
+
+A Python implementation of the Luhn Algorithm to validate credit card numbers for error-checking purposes.
+
+## 📋 Table of Contents
+- [What is the Luhn Algorithm?](#what-is-the-luhn-algorithm)
+- [How it Works](#how-it-works)
+- [Project Overview](#project-overview)
+- [Code Explanation](#code-explanation)
+- [Usage](#usage)
+- [Example](#example)
+- [Features](#features)
+- [Educational Value](#educational-value)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Contributing](#contributing)
+
+## What is the Luhn Algorithm?
+
+The **Luhn Algorithm**, also known as the "modulus 10" algorithm, is a simple checksum formula used to validate various identification numbers, including:
+
+- Credit card numbers
+- IMEI numbers
+- National provider identifier numbers
+- Canadian Social Insurance Numbers
+
+Created by IBM researcher Hans Peter Luhn in 1954, this algorithm is widely used for error-checking in various applications to detect simple errors in typing or transmission of credit card numbers.
+
+## How it Works
+
+The Luhn Algorithm follows these steps:
+
+1. **Reverse the number**: Start from the rightmost digit
+2. **Separate digits**: Split into odd and even positioned digits (from right to left)
+3. **Process odd positions**: Sum all digits in odd positions (1st, 3rd, 5th, etc.)
+4. **Process even positions**: 
+   - Double each digit in even positions (2nd, 4th, 6th, etc.)
+   - If the result is ≥ 10, add the digits together (e.g., 16 → 1+6 = 7)
+   - Sum all processed even position digits
+5. **Final check**: Add both sums together
+6. **Validation**: If the total is divisible by 10, the number is valid
+
+## Project Overview
+
+This project implements the Luhn Algorithm in Python to validate credit card numbers. It demonstrates fundamental programming concepts including:
+
+- String manipulation and preprocessing
+- Numerical computations
+- Algorithm implementation
+- Input validation
+- Modular programming
+
+## Code Explanation
+
+### `verify_card_number(card_number)`
+
+The main validation function that implements the Luhn Algorithm:
+
+```python
+def verify_card_number(card_number):
+    sum_of_odd_digits = 0
+    card_number_reversed = card_number[::-1]  # Reverse the string
+    odd_digits = card_number_reversed[::2]    # Get odd positioned digits
+    
+    # Sum odd positioned digits
+    for digit in odd_digits:
+        sum_of_odd_digits += int(digit)
+    
+    sum_of_even_digits = 0
+    even_digits = card_number_reversed[1::2]  # Get even positioned digits
+    
+    # Process even positioned digits
+    for digit in even_digits:
+        number = int(digit) * 2
+        if number >= 10:
+            number = (number // 10) + (number % 10)  # Add digits if >= 10
+        sum_of_even_digits += number
+    
+    total = sum_of_odd_digits + sum_of_even_digits
+    return total % 10 == 0  # Valid if divisible by 10
+```
+
+### `main()`
+
+The main function handles input preprocessing and result display:
+
+```python
+def main():
+    card_number = '4111-1111-4555-1141'
+    # Remove hyphens and spaces
+    card_translation = str.maketrans({'-': '', ' ': ''})
+    translated_card_number = card_number.translate(card_translation)
+    
+    # Validate and display result
+    if verify_card_number(translated_card_number):
+        print('VALID!')
+    else:
+        print('INVALID!')
+```
+
+## Usage
+
+1. Run the script directly:
+```bash
+python credit_card_validator.py
+```
+
+2. Or import and use the functions:
+```python
+from credit_card_validator import verify_card_number
+
+# Test a card number
+card = "4111111145551141"
+is_valid = verify_card_number(card)
+print(f"Card is {'valid' if is_valid else 'invalid'}")
+```
+
+## Example
+
+**Input**: `4111-1111-4555-1141`
+
+**Step-by-step process**:
+1. Remove formatting: `4111111145551141`
+2. Reverse: `1411555411111114`
+3. Odd positions (1st, 3rd, 5th...): `1, 1, 5, 5, 1, 1, 1, 1` → Sum = 16
+4. Even positions (2nd, 4th, 6th...): `4, 1, 5, 4, 1, 1, 1, 4`
+   - Double: `8, 2, 10, 8, 2, 2, 2, 8`
+   - Adjust (10 → 1+0): `8, 2, 1, 8, 2, 2, 2, 8` → Sum = 33
+5. Total: 16 + 33 = 49
+6. 49 % 10 ≠ 0 → **INVALID**
+
+## Features
+
+- ✅ Implements complete Luhn Algorithm
+- ✅ Handles formatted input (removes hyphens and spaces)
+- ✅ Clear, readable code structure
+- ✅ Proper error handling for digit processing
+- ✅ Educational comments and documentation
+
+## Educational Value
+
+This project helps you learn:
+
+- **String Manipulation**: Using slicing, translation, and formatting
+- **Numerical Computations**: Mathematical operations and modular arithmetic
+- **Algorithm Implementation**: Step-by-step problem solving
+- **Code Organization**: Separating concerns with functions
+- **Input Processing**: Cleaning and validating user input
+
+## Requirements
+
+- Python 3.x
+- No external dependencies required
+
+## Installation
+
+1. Clone or download the script
+2. Ensure Python 3.x is installed
+3. Run the script directly
+
+```bash
+# No installation required - just run
+python credit_card_validator.py
+```
+
+## Test Cases
+
+You can test with these sample card numbers:
+
+**Valid Cards**:
+- `4532015112830366` (Visa)
+- `5555555555554444` (MasterCard)
+- `4111111111111111` (Test Visa)
+
+**Invalid Cards**:
+- `4111111111111112` (Modified test card)
+- `1234567890123456` (Random number)
+
+## Contributing
+
+Feel free to contribute by:
+- Adding support for different card types
+- Implementing additional validation rules
+- Adding more comprehensive error handling
+- Creating a GUI interface
+- Adding unit tests
+
+## Note
+
+⚠️ **Important**: This tool is for educational purposes only. Never store or transmit actual credit card numbers in production applications without proper security measures and PCI compliance.
